@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     BrowserRouter as Router,
-    Link,
     Route,
     Switch,
     Redirect,
@@ -17,7 +16,7 @@ export default class App extends React.Component {
 
     render() {
 
-        const isLoggedIn = true;
+        const isLoggedIn = false;
 
         if (!isLoggedIn) {
             return (

@@ -1,6 +1,6 @@
 import { API_URL } from '../../constants';
 export const SET_TOKEN = 'SET_TOKEN';
-
+import axios from 'axios';
 
 export const setToken = (token) => ({
     type : SET_TOKEN,
@@ -9,20 +9,33 @@ export const setToken = (token) => ({
 
 
 export function getToken(user_email, password) {
-    payload = {
+    let payload = {
         email: user_email,
         password: password
     };
+    //
+    // let data = new FormData();
+    // data.append( "json", JSON.stringify( payload ) );
 
-    data = new FormData();
-    data.append( "json", JSON.stringify( payload ) );
+    return dispatch => axios({
+        url: `${API_URL}/users/authenticate`,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        },
+        data: JSON.stringify(payload)
 
-    fetch(`${API_URL}/users/authenticate`,
-        {
-            method: 'POST',
-            body: data
-        })
-        .then(function(res){ return res.json(); })
-        .then(function(data){ alert( JSON.stringify( data ) ) })
+    }).then(function(data){
+        console.log(data);
+            // setToken(data)
+    });
+        // .then(res => console.log(res))
+        // .then(function(data){
+        //     console.log(data);
+        //     // setToken(data)
+        // });
 
 }

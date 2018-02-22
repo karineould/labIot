@@ -1,6 +1,39 @@
 import React from 'react';
+// import {Link} from 'react-router-dom';
+import { getToken } from '../../redux/auth/actions';
+import {connect} from "react-redux";
 
-export default class Login extends React.Component {
+export class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.change = this.change.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    change(e) {
+        this.state = {
+            user_email: "",
+            password: "",
+        };
+
+        if (e.target.id === "inputEmail"){
+            this.setState({
+                user_email: e.target.value
+            })
+        } else {
+            this.setState({
+                password: e.target.value
+            })
+        }
+    }
+
+    handleClick() {
+        console.log(this.props.state.user_email);
+        console.log(this.state.user_email);
+        this.props.dispatch(getToken(this.state.user_email, this.state.password))
+    }
 
     render() {
         return (
@@ -11,21 +44,15 @@ export default class Login extends React.Component {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="exampleInputEmail1">Email address</label>
-                                <input className="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email" />
+                                <input className="form-control" id="inputEmail" type="email" onChange={this.change} aria-describedby="emailHelp" placeholder="Enter email" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Password</label>
-                                <input className="form-control" id="exampleInputPassword1" type="password" placeholder="Password" />
+                                <input className="form-control" id="inputPassword1" onChange={this.change} type="password" placeholder="Password" />
                             </div>
-                            <div className="form-group">
-                                <div className="form-check">
-                                    <label className="form-check-label">
-                                        <input className="form-check-input" type="checkbox" />
-                                        Remember Password
-                                    </label>
-                                </div>
-                            </div>
-                            <a className="btn btn-primary btn-block" href="">Login</a>
+
+                            <a className="btn btn-primary btn-block" onClick={this.handleClick} href="">Login</a>
+
                         </form>
                         <div className="text-center">
                             <a className="d-block small mt-3" href="">Register an Account</a>
@@ -38,3 +65,8 @@ export default class Login extends React.Component {
     }
 }
 
+const mapStateToProps = function(state) {
+    return {state};
+};
+
+export default connect(mapStateToProps)(Login)

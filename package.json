@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "css-loader": "^0.28.9",
     "html-webpack-plugin": "^2.30.1",
     "postcss-loader": "^2.0.10",
