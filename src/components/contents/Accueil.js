@@ -1,11 +1,10 @@
 import React from 'react';
-import Main from '../Main';
 
 export default class Accueil extends React.Component {
 
     render() {
         return (
-            <Main>
+            <div>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                         <a href="#">Accueil</a>
@@ -79,7 +78,7 @@ export default class Accueil extends React.Component {
                         </div>
                     </div>
                 </div>
-            </Main>
+            </div>
         );
     }
 }

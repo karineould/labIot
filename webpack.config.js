@@ -25,14 +25,15 @@ module.exports = {
                 test: /\.css$/,
                 loader: 'css-loader',
                 options: { url: true }
-            },
-            // {
-            //     test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-            //     loader: 'url-loader?limit=100000'
-            // }
+            }
         ],
     },
+    devServer: {
+        historyApiFallback: true,
+    },
     plugins: [
-        new webpack.NamedModulesPlugin(),
+        new webpack.NamedModulesPlugin({
+            template: './src/index.html'
+        }),
     ],
 };
