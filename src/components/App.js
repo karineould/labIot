@@ -1,30 +1,23 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    Redirect,
-} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from './login/Login';
 import User from './contents/Users';
 import Accueil from './contents/Accueil';
 import Materiels from "./contents/Materiels";
-import Main from "./Main";
 
-export default class App extends React.Component {
+export class App extends React.Component {
 
     render() {
 
-        const isLoggedIn = false;
+        console.log(this.props.state.auth);
 
-        if (!isLoggedIn) {
+        if (!this.props.state.auth.isLogged) {
+            console.log('login route');
             return (
                 <Router>
                     <Switch>
                         <Route path="/login" component={Login} />
-                        {/*<Route path="/register" component={Register} />*/}
-                        {/*<Route path="/forgot" component={ForgotPassword} />*/}
                         <Redirect to="/login" />
                     </Switch>
                 </Router>
@@ -33,16 +26,27 @@ export default class App extends React.Component {
 
         return (
             <Router>
-                <Main>
-                    <Switch>
-                        <Route exact path='/' component={Accueil} />
-                        <Route path='/materiels' component={Materiels} />
-                        <Route path='/users' component={User} />
-                        <Redirect from="/login" to="/" />
-                    </Switch>
-                </Main>
+                <Switch>
+                    <Route exact path='/' component={Accueil}/>
+                    <Route path='/materiels' component={Materiels}/>
+                    <Route path='/users' component={User}/>
+                    <Redirect from="/login" to="/"/>
+                </Switch>
             </Router>
         );
     }
-
 }
+//
+// const PrivateRoute = ({ component: Component, authed, ...rest }) => (
+//     <Route {...rest}
+//            render={(props) => authed === true
+//                ? <Component {...props} />
+//                : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+//     />
+// );
+
+const mapStateToProps = function(state) {
+    return {state};
+};
+
+export default connect(mapStateToProps)(App)

@@ -2,7 +2,8 @@ import { SET_TOKEN } from './actions';
 
 const initialState = {
     user_email: "",
-    token: ""
+    token: "",
+    isLogged: false
 };
 
 const auth = (state = initialState, action) => {
@@ -10,8 +11,9 @@ const auth = (state = initialState, action) => {
     switch(action.type) {
         case SET_TOKEN:
             return Object.assign({}, state, {
-                user_email: state.user_email,
-                token: action.token
+                user_email: action.user_email,
+                token: action.token,
+                isLogged: action.isLogged
             });
         default:
             return state;

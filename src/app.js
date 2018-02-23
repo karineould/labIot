@@ -28,8 +28,8 @@ if (module.hot) {
                 <Provider store={store} >
                     <App />
                 </Provider>
-            </BrowserRouter>
-            ,container
+            </BrowserRouter>,
+            container
         );
     });
 }

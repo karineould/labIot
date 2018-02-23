@@ -6,7 +6,9 @@ const request = (endPoint, method, params) => {
     let config = {
         method: method.toLowerCase(),
         headers: {
-            'Content-Type':'application/x-www-form-urlencoded'
+            'Content-Type':'application/json',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache'
         },
     };
 
@@ -24,8 +26,12 @@ const request = (endPoint, method, params) => {
     // }
 
     return fetch(url, config)
-            .then(function(res){
-                return res.json();
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Something went wrong ...');
+                }
             }).catch(function(err) {
                 let { response } = err;
                 return {

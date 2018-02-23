@@ -1,10 +1,11 @@
 import React from 'react';
+import Main from "../Main";
 
 export default class Users extends React.Component {
 
     render() {
         return (
-            <div>
+            <Main>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                         <a href="#">Accueil</a>
@@ -67,7 +68,7 @@ export default class Users extends React.Component {
                     </div>
                     <div className="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                 </div>
-            </div>
+            </Main>
         );
     }
 }

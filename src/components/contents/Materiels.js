@@ -1,10 +1,11 @@
 import React from 'react';
+import Main from "../Main";
 
 export default class Materiels extends React.Component {
 
     render() {
         return (
-            <div>
+            <Main>
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                         <a href="#">Materiels</a>
@@ -12,7 +13,7 @@ export default class Materiels extends React.Component {
                     <li className="breadcrumb-item active">Materiels</li>
                 </ol>
                 <h1>Materiels</h1>
-            </div>
+            </Main>
         );
     }
 }
