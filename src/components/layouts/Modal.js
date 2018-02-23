@@ -1,6 +1,21 @@
 import React from 'react';
+import {resetAuth} from '../../redux/auth/actions';
+import {connect} from "react-redux";
 
-export default class Modal extends React.Component {
+export class Modal extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+
+    handleClick(e) {
+        e.preventDefault();
+        this.props.resetAuth();
+        // this.props.history.push("/login");
+    }
 
     render() {
         return (
@@ -16,7 +31,7 @@ export default class Modal extends React.Component {
                         <div className="modal-body">Etes vous sure de vouloir vous deconnecter</div>
                         <div className="modal-footer">
                             <button className="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a className="btn btn-primary" href="login.html">Logout</a>
+                            <button className="btn btn-primary" onClick={this.handleClick} type="button" data-dismiss="modal">Deconnexion</button>
                         </div>
                     </div>
                 </div>
@@ -25,6 +40,17 @@ export default class Modal extends React.Component {
     }
 }
 
+const mapStateToProps = function(state) {
+    return {state};
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        resetAuth: () => dispatch(resetAuth())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal)
 
 
 

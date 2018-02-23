@@ -32,7 +32,6 @@ export class Login extends React.Component {
     handleClick(e) {
         e.preventDefault();
         this.props.getToken(this.state.user_email, this.state.password);
-        this.props.history.push("/");
     }
 
     render() {

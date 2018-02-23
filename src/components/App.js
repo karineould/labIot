@@ -11,9 +11,7 @@ export class App extends React.Component {
     render() {
 
         console.log(this.props.state.auth);
-
         if (!this.props.state.auth.isLogged) {
-            console.log('login route');
             return (
                 <Router>
                     <Switch>

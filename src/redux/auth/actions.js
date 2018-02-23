@@ -1,5 +1,6 @@
 import { GET, POST, PATCH, DELETE } from '../../../src/api/api';
 export const SET_TOKEN = 'SET_TOKEN';
+export const RESET_AUTH = 'RESET_AUTH';
 
 export const setToken = (token, user_email, isLogged) => ({
     type : SET_TOKEN,
@@ -8,6 +9,13 @@ export const setToken = (token, user_email, isLogged) => ({
     isLogged: isLogged
 });
 
+
+export const resetAuth = () => ({
+    type : RESET_AUTH,
+    token: "",
+    user_email: "",
+    isLogged: false
+});
 
 export function getToken(user_email, password) {
     let payload = JSON.stringify({
