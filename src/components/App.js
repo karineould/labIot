@@ -25,7 +25,6 @@ export default class App extends React.Component {
                         <Route path="/login" component={Login} />
                         {/*<Route path="/register" component={Register} />*/}
                         {/*<Route path="/forgot" component={ForgotPassword} />*/}
-                        {/*<Route path="/oauth/callback" component={AuthCallback} />*/}
                         <Redirect to="/login" />
                     </Switch>
                 </Router>

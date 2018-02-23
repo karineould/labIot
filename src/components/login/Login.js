@@ -30,9 +30,7 @@ export class Login extends React.Component {
     }
 
     handleClick() {
-        console.log(this.props.state.user_email);
-        console.log(this.state.user_email);
-        this.props.dispatch(getToken(this.state.user_email, this.state.password))
+        this.props.getToken(this.state.user_email, this.state.password);
     }
 
     render() {
@@ -69,4 +67,10 @@ const mapStateToProps = function(state) {
     return {state};
 };
 
-export default connect(mapStateToProps)(Login)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getToken: (user_email, password) => dispatch(getToken(user_email, password))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
