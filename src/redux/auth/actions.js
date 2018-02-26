@@ -24,7 +24,7 @@ export function getToken(user_email, password) {
         password: password
     });
 
-    return dispatch => POST('/users/authenticate', payload)
+    return dispatch => POST('/authenticate', payload)
         .then((response) => {
             if (response.success) {
                 return dispatch(setToken(response.token, payload.email, response.success))

@@ -1,9 +1,13 @@
 import React from 'react';
 import Main from "../Main";
+import {connect} from "react-redux";
+import {getUsers} from "../../redux/users/actions";
 
-export default class Users extends React.Component {
+export class Users extends React.Component {
 
     render() {
+        this.props.getUsers();
+
         return (
             <Main>
                 <ol className="breadcrumb">
@@ -19,48 +23,30 @@ export default class Users extends React.Component {
                             <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
+                                    <th>User Name</th>
+                                    <th>IsAdmin</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                                </tfoot>
                                 <tbody>
                                 <tr>
                                     <td>Tiger Nixon</td>
                                     <td>System Architect</td>
                                     <td>Edinburgh</td>
                                     <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
                                 </tr>
                                 <tr>
                                     <td>Garrett Winters</td>
                                     <td>Accountant</td>
                                     <td>Tokyo</td>
                                     <td>63</td>
-                                    <td>2011/07/25</td>
-                                    <td>$170,750</td>
                                 </tr>
                                 <tr>
                                     <td>Ashton Cox</td>
                                     <td>Junior Technical Author</td>
                                     <td>San Francisco</td>
                                     <td>66</td>
-                                    <td>2009/01/12</td>
-                                    <td>$86,000</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -73,3 +59,14 @@ export default class Users extends React.Component {
     }
 }
 
+const mapStateToProps = function(state) {
+    return {state};
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getUsers: () => dispatch(getUsers())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

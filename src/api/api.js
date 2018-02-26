@@ -1,5 +1,5 @@
 import { API_URL } from '../constants';
-// import { store } from 'src/store';
+import { store } from '../store';
 
 
 const request = (endPoint, method, params) => {
@@ -16,14 +16,15 @@ const request = (endPoint, method, params) => {
 
     let url = API_URL + endPoint;
 
-    // const token = store.getState().session.access_token;
+    const token = store.getState().auth.token;
+    console.log(token);
 
-    // if (token) {
-    //     config.headers = {
-    //         ...config.headers,
-    //         'Authorization': `${token}`
-    //     }
-    // }
+    if (token) {
+        config.headers = {
+            ...config.headers,
+            'x-access-token': `${token}`
+        }
+    }
 
     return fetch(url, config)
             .then(response => {
