@@ -16,13 +16,6 @@ export default class NavBar extends React.Component {
                         <ItemSideBar title="Utilisateurs" link="/users" icon="fa fa-fw fa-table" />
                         <ItemSideBar title="Materiels" link="/materiels" icon="fa fa-fw fa-wrench" />
                     </ul>
-                    <ul className="navbar-nav sidenav-toggler">
-                        <li className="nav-item">
-                            <a className="nav-link text-center" id="sidenavToggler">
-                                <i className="fa fa-fw fa-angle-left"></i>
-                            </a>
-                        </li>
-                    </ul>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

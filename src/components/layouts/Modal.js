@@ -14,7 +14,6 @@ export class Modal extends React.Component {
     handleClick(e) {
         e.preventDefault();
         this.props.resetAuth();
-        // this.props.history.push("/login");
     }
 
     render() {

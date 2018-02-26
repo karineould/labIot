@@ -2,19 +2,20 @@ import { GET, POST, PATCH, DELETE } from '../../../src/api/api';
 export const SET_TOKEN = 'SET_TOKEN';
 export const RESET_AUTH = 'RESET_AUTH';
 
-export const setToken = (token, user_email, isLogged) => ({
+export const setToken = (token, user_email, success, message = "") => ({
     type : SET_TOKEN,
     token: token,
     user_email: user_email,
-    isLogged: isLogged
+    isLogged: success,
+    error: {success: success, message: message}
 });
-
 
 export const resetAuth = () => ({
     type : RESET_AUTH,
     token: "",
     user_email: "",
-    isLogged: false
+    isLogged: false,
+    error: {success: false, message: ""},
 });
 
 export function getToken(user_email, password) {
@@ -23,12 +24,12 @@ export function getToken(user_email, password) {
         password: password
     });
 
-    console.log(payload);
     return dispatch => POST('/users/authenticate', payload)
         .then((response) => {
-            // console.log(response);
             if (response.success) {
-                return dispatch(setToken(response.token, payload.email, true))
+                return dispatch(setToken(response.token, payload.email, response.success))
+            } else {
+                return dispatch(setToken(response.token, payload.email, response.success, response.message))
             }
         }).catch((err) => {
             console.log(err);

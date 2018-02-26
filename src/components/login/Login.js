@@ -1,6 +1,7 @@
 import React from 'react';
 import { getToken } from '../../redux/auth/actions';
 import {connect} from "react-redux";
+import {InputForm} from "../layouts/InputForm";
 
 export class Login extends React.Component {
 
@@ -10,10 +11,9 @@ export class Login extends React.Component {
         this.state = {
             user_email: "",
             password: "",
-            error: false,
+            error: false
         };
 
-        this.change = this.change.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -32,6 +32,12 @@ export class Login extends React.Component {
     handleClick(e) {
         e.preventDefault();
         this.props.getToken(this.state.user_email, this.state.password);
+
+        this.setState({
+            error: !this.props.state.auth.error.success
+        });
+
+        console.log(this.props.state.auth);
     }
 
     render() {
@@ -41,20 +47,28 @@ export class Login extends React.Component {
                 <div className="card card-login mx-auto mt-5">
                     <div className="card-header">Login</div>
                     <div className="card-body">
-                        <form>
-                            <div className="form-group">
-                                <label htmlFor="inputEmail">Email address</label>
-                                <input className="form-control" id="inputEmail" type="email" onChange={this.change} aria-describedby="emailHelp" placeholder="Enter email" />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="inputPassword">Password</label>
-                                <input className="form-control" id="inputPassword" onChange={this.change} type="password" placeholder="Password" />
-                            </div>
-
+                        <form role="form">
+                            <InputForm type="email"
+                                       htmlFor="inputEmail"
+                                       label="Email address"
+                                       onChange={this.change.bind(this)}
+                                       id="inputEmail"
+                                       error={this.state.error}
+                                       errorMessage={this.props.state.auth.error.message}
+                                       placeholder="Enter email"
+                            />
+                            <InputForm type="password"
+                                       htmlFor="inputPassword"
+                                       label="Password"
+                                       onChange={this.change.bind(this)}
+                                       id="inputPassword"
+                                       error={this.state.error}
+                                       errorMessage={this.props.state.auth.error.message}
+                                       placeholder="Password"
+                            />
                             <a className="btn btn-primary btn-block" onClick={this.handleClick} href="/">Login</a>
-
-
                         </form>
+
                         <div className="text-center">
                             <a className="d-block small mt-3" href="">Register an Account</a>
                             <a className="d-block small" href="">Forgot Password?</a>
