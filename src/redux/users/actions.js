@@ -2,27 +2,16 @@ import { GET, POST, PATCH, DELETE } from '../../../src/api/api';
 export const SET_USERS = 'SET_USERS';
 
 
-export const setUsers = () => ({
+export const setUsers = (users) => ({
     type : SET_USERS,
-
+    users
 });
 
 
 export function getUsers() {
-    // let payload = JSON.stringify({
-    //     email: user_email,
-    //     password: password
-    // });
-
     return dispatch => GET('/users')
-        .then((response) => {
-
-            console.log(response);
-            if (response.success) {
-                return dispatch(setUsers())
-            } else {
-                return dispatch(setUsers())
-            }
+        .then((users) => {
+            return dispatch(setUsers(users))
         }).catch((err) => {
             console.log(err);
         })

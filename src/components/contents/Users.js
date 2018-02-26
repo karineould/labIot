@@ -1,12 +1,13 @@
 import React from 'react';
 import Main from "../Main";
 import {connect} from "react-redux";
-import {getUsers} from "../../redux/users/actions";
 
 export class Users extends React.Component {
 
+
     render() {
-        this.props.getUsers();
+
+        console.log(this.props.state);
 
         return (
             <Main>
@@ -30,24 +31,17 @@ export class Users extends React.Component {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                </tr>
-                                <tr>
-                                    <td>Garrett Winters</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>63</td>
-                                </tr>
-                                <tr>
-                                    <td>Ashton Cox</td>
-                                    <td>Junior Technical Author</td>
-                                    <td>San Francisco</td>
-                                    <td>66</td>
-                                </tr>
+                                {this.props.state.users.map((u, i) =>
+                                    <tr key={u._id}>
+                                        <td>{u.email}</td>
+                                        <td>{u.admin ?
+                                            <i className={"fa fa-fw fa-check-circle"}> </i>
+                                            : <i className={"fa fa-fw fa-times"}> </i>}
+                                            </td>
+                                        <td><i className={"fa fa-fw fa-edit"}> </i> </td>
+                                        <td><i className={"fa fa-fw fa-trash"}> </i> </td>
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
@@ -63,10 +57,6 @@ const mapStateToProps = function(state) {
     return {state};
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getUsers: () => dispatch(getUsers())
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+
+export default connect(mapStateToProps)(Users)
