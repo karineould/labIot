@@ -5,6 +5,7 @@ import {InputForm} from "../Form/InputForm";
 import {connect} from "react-redux";
 import {Table} from "../Table/Table";
 import {putUser} from "../../redux/user/actions";
+import {getUsers} from "../../redux/users/actions";
 
 export class Users extends React.Component {
 
@@ -24,6 +25,10 @@ export class Users extends React.Component {
             },
 
         };
+    }
+
+    componentDidUpdate(){
+        this.props.getUsers();
     }
 
     handleClick(e) {
@@ -168,7 +173,8 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        putUser: (userEmail, password) => dispatch(putUser(userEmail, password))
+        putUser: (userEmail, password) => dispatch(putUser(userEmail, password)),
+        getUsers: () => dispatch(getUsers())
     }
 };
 
