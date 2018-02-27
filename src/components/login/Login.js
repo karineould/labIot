@@ -1,7 +1,7 @@
 import React from 'react';
 import { getToken } from '../../redux/auth/actions';
 import {connect} from "react-redux";
-import {InputForm} from "../layouts/InputForm";
+import {InputForm} from "../Form/InputForm";
 
 export class Login extends React.Component {
 
@@ -9,7 +9,7 @@ export class Login extends React.Component {
         super(props);
 
         this.state = {
-            user_email: "",
+            userEmail: "",
             password: "",
             error: false
         };
@@ -20,7 +20,7 @@ export class Login extends React.Component {
     change(e) {
         if (e.target.id === "inputEmail"){
             this.setState({
-                user_email: e.target.value
+                userEmail: e.target.value
             })
         } else {
             this.setState({
@@ -31,7 +31,7 @@ export class Login extends React.Component {
 
     handleClick(e) {
         e.preventDefault();
-        this.props.getToken(this.state.user_email, this.state.password);
+        this.props.getToken(this.state.userEmail, this.state.password);
 
         this.setState({
             error: !this.props.state.auth.error.success
@@ -54,7 +54,7 @@ export class Login extends React.Component {
                                        onChange={this.change.bind(this)}
                                        id="inputEmail"
                                        error={this.state.error}
-                                       errorMessage={this.props.state.auth.error.message}
+                                       errorMessage={this.props.state.auth.error.message.email}
                                        placeholder="Enter email"
                             />
                             <InputForm type="password"
@@ -63,7 +63,7 @@ export class Login extends React.Component {
                                        onChange={this.change.bind(this)}
                                        id="inputPassword"
                                        error={this.state.error}
-                                       errorMessage={this.props.state.auth.error.message}
+                                       errorMessage={this.props.state.auth.error.message.password}
                                        placeholder="Password"
                             />
                             <a className="btn btn-primary btn-block" onClick={this.handleClick} href="/">Login</a>
@@ -86,7 +86,7 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getToken: (user_email, password) => dispatch(getToken(user_email, password))
+        getToken: (userEmail, password) => dispatch(getToken(userEmail, password))
     }
 };
 

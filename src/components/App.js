@@ -34,14 +34,7 @@ export class App extends React.Component {
         );
     }
 }
-//
-// const PrivateRoute = ({ component: Component, authed, ...rest }) => (
-//     <Route {...rest}
-//            render={(props) => authed === true
-//                ? <Component {...props} />
-//                : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
-//     />
-// );
+
 
 const mapStateToProps = function(state) {
     return {state};

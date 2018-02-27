@@ -8,6 +8,12 @@ export class InputForm extends React.Component {
 
     render() {
 
+        const errorMessage = this.props.errorMessage ? (
+            <small className="text-danger">
+                {this.props.errorMessage}
+            </small>
+        ) : '';
+
         if (this.props.error) {
              return (
                  <div className="form-group">
@@ -18,9 +24,7 @@ export class InputForm extends React.Component {
                             type={this.props.type}
                             placeholder={this.props.placeholder}
                      />
-                     <small className="text-danger">
-                         {this.props.errorMessage}
-                     </small>
+                     {errorMessage}
                  </div>
             );
         }

@@ -3,10 +3,17 @@ import { SET_ERROR } from './actions';
 import { RESET_AUTH } from './actions';
 
 const initialState = {
-    user_email: "",
+    userEmail: "",
     token: "",
     isLogged: false,
-    error: {success: false, message: ""},
+    isAdmin: false,
+    error: {
+        success: false,
+        message: {
+            email: false,
+            password: false
+        }
+    },
 };
 
 const auth = (state = initialState, action) => {
@@ -14,16 +21,18 @@ const auth = (state = initialState, action) => {
     switch(action.type) {
         case SET_TOKEN:
             return Object.assign({}, state, {
-                user_email: action.user_email,
+                userEmail: action.userEmail,
                 token: action.token,
                 isLogged: action.isLogged,
+                isAdmin: action.isAdmin,
                 error: action.error
             });
         case RESET_AUTH:
             return Object.assign({}, state, {
-                user_email: action.user_email,
+                userEmail: action.userEmail,
                 token: action.token,
                 isLogged: action.isLogged,
+                isAdmin: action.isAdmin,
                 error: action.error
             });
         default:
