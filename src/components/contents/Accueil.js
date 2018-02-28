@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {getUsers} from "../../redux/users/actions";
 import {Link} from 'react-router-dom';
 import {getCategories} from "../../redux/categories/actions";
+import {getItems} from "../../redux/items/actions";
 
 export class Accueil extends React.Component {
 
@@ -14,6 +15,7 @@ export class Accueil extends React.Component {
     componentDidMount() {
         this.props.getUsers();
         this.props.getCategories();
+        this.props.getItems();
     }
 
     render() {
@@ -115,7 +117,8 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUsers: () => dispatch(getUsers()),
-        getCategories: () => dispatch(getCategories())
+        getCategories: () => dispatch(getCategories()),
+        getItems: () => dispatch(getItems())
     }
 };
 

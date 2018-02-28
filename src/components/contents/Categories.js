@@ -44,6 +44,7 @@ export class Categories extends React.Component {
             right: '16px',
             top: '140px'
         };
+
         const headerTableCat =  ["Categorie name", "Delete", "Sous-Categorie"];
 
         const headerTableSousCat = ["Name", "Delete"];
@@ -67,7 +68,7 @@ export class Categories extends React.Component {
                 Aucune sous-categorie !
             </div>
         );
-        
+
         return (
             <Main>
                 <ol className="breadcrumb">
