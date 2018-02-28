@@ -1,4 +1,4 @@
-import { GET, POST, PATCH, DELETE } from '../../../src/api/api';
+import { GET, POST, PUT, PATCH, DELETE } from '../../../src/api/api';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 
 export const setCategories = (categories) => ({
@@ -14,4 +14,16 @@ export function getCategories() {
             console.log(err);
         })
 
+}
+
+export function putCategories(label) {
+    let payload = JSON.stringify({
+        nom: label
+    });
+    return dispatch => PUT('/categories/create',payload)
+        .then(() => {
+            return dispatch(getCategories())
+        }).catch((err) => {
+            console.log(err);
+        });
 }
