@@ -3,8 +3,10 @@ import Main from "../Main";
 import {connect} from "react-redux";
 import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
+import {SelectForm} from "../Form/SelectForm";
 import {Table} from "../Table/Table";
 import {getItems} from "../../redux/items/actions";
+import {getCategories} from "../../redux/categories/actions";
 
 export class Materiels extends React.Component {
 
@@ -12,13 +14,34 @@ export class Materiels extends React.Component {
         super(props);
 
         this.state = {
-            items: {
+            item: {
                 catId: false,
-                catName: "",
-                error: false,
-                message: ""
+                catName: {
+                    value:"",
+                    error: false,
+                    message: ""
+                },
+                sousCatName: {
+                    value:"",
+                    error: false,
+                    message: ""
+                },
+                name: {
+                    value:"",
+                    error: false,
+                    message: ""
+                },
+                quantite:  {
+                    value:"",
+                    error: false,
+                    message: ""
+                }
             }
         };
+
+    }
+
+    change(e) {
 
     }
 
@@ -45,7 +68,7 @@ export class Materiels extends React.Component {
                     <li className="breadcrumb-item active">Materiels</li>
                 </ol>
                 <h1>Materiels</h1>
-                <a className="btn btn-primary disabled" style={styleAddItem} href="#" data-toggle="modal" data-target="#createItem">
+                <a className="btn btn-primary" style={styleAddItem} href="#" data-toggle="modal" data-target="#createItem">
                     <i className={"fa fa-fw fa-plus"}>  </i>
                     add Item
                 </a>
@@ -80,6 +103,39 @@ export class Materiels extends React.Component {
 
                 </div>
 
+                <Modal id={"createItem"}
+                       title={"Create Item"}
+                       titleButton={"Create"}
+                       // onClick={this.saveItem.bind(this)}
+                >
+                    <form role="form">
+                        <InputForm type="text"
+                                   htmlFor="itemName"
+                                   label="Item name"
+                                   onChange={this.change.bind(this)}
+                                   id="itemName"
+                                   error={this.state.item.catName.error}
+                                   errorMessage={this.state.item.catName.message}
+                                   placeholder="Enter category name"
+                        />
+
+                        <SelectForm id={"itemCat"}
+                                    for={""}
+                                    label="Item category"
+                                    value={this.props.state.categories}
+                        />
+
+                        <InputForm type="text"
+                                   htmlFor="inputQuantite"
+                                   label="Item quantity"
+                                   onChange={this.change.bind(this)}
+                                   id="itemQte"
+                                   error={this.state.item.quantite.error}
+                                   errorMessage={this.state.item.quantite.message}
+                                   placeholder="Enter quantity"
+                        />
+                    </form>
+                </Modal>
             </Main>
         );
     }
@@ -91,10 +147,8 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // putUser: (userEmail, password) => dispatch(putUser(userEmail, password)),
-        // deleteUser: (id) => dispatch(deleteUser(id)),
         getItems: () => dispatch(getItems()),
-        // getSousCategories: (id) => dispatch(getSousCategories(id))
+        getCategories: () => dispatch(getCategories())
     }
 };
 

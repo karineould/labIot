@@ -54,7 +54,7 @@ export class Accueil extends React.Component {
                                 <div className="card-body-icon">
                                     <i className="fa fa-fw fa-wrench"></i>
                                 </div>
-                                <div className="mr-5">0 Matériels!</div>
+                                <div className="mr-5">{this.props.state.items.length} Matériels!</div>
                             </div>
                             <Link to="/materiels">
                                 <div className="card-footer text-white clearfix small z-1">
