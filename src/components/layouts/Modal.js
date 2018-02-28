@@ -8,6 +8,12 @@ export default class Modal extends React.Component {
 
     render() {
 
+        const buttonValidate = this.props.onClick ? (
+            <button className="btn btn-primary" onClick={this.props.onClick} type="button" data-dismiss="modal">{this.props.titleButton}</button>
+        ) : (
+            <button className="btn btn-primary" type="button" data-dismiss="modal">{this.props.titleButton}</button>
+        );
+
         return (
             <div className="modal fade" id={this.props.id} tabIndex="-1" role="dialog" aria-hidden="true">
                 <div className="modal-dialog" role="document">
@@ -21,7 +27,7 @@ export default class Modal extends React.Component {
                         <div className="modal-body">{this.props.children}</div>
                         <div className="modal-footer">
                             <button className="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <button className="btn btn-primary" onClick={this.props.onClick} type="button" data-dismiss="modal">{this.props.titleButton}</button>
+                            {buttonValidate}
                         </div>
                     </div>
                 </div>
