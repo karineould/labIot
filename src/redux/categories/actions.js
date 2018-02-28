@@ -27,3 +27,24 @@ export function putCategories(label) {
             console.log(err);
         });
 }
+
+export function postCategories(id,label) {
+    let payload = JSON.stringify({
+        nom: label
+    });
+    return dispatch => POST('/categories/'+id,payload)
+        .then(() => {
+            return getCategories()
+        }).catch((err) => {
+            console.log(err);
+        });
+}
+
+export function deleteCategories(id) {
+    return dispatch => DELETE('/categories/'+id)
+        .then(() => {
+            return getCategories()
+        }).catch((err) => {
+            console.log(err);
+        });
+}

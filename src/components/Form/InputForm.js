@@ -36,6 +36,7 @@ export class InputForm extends React.Component {
                        id={this.props.id}
                        onChange={this.props.onChange}
                        type={this.props.type}
+                       value={this.props.value}
                        placeholder={this.props.placeholder}
                 />
             </div>
