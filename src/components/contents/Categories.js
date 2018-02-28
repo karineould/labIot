@@ -5,6 +5,7 @@ import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
 import {Table} from "../Table/Table";
 import {getCategories} from "../../redux/categories/actions";
+import {putCategories} from "../../redux/categories/actions";
 import {getSousCategories} from "../../redux/sousCategories/actions";
 
 export class Categories extends React.Component {
@@ -35,6 +36,17 @@ export class Categories extends React.Component {
         });
 
         this.props.getSousCategories(e.target.parentElement.dataset["id"]);
+    }
+    
+    modalPutCat(e) {
+        this.setState({
+            newCategorie: {
+                catName: $('#labelCateg').val()
+            }
+        });
+        this.props.putCategories($('#labelCateg').val());
+        //on reset le champ
+        $('#labelCateg').val('');
     }
 
     render() {
@@ -78,9 +90,9 @@ export class Categories extends React.Component {
                     <li className="breadcrumb-item active">Categories</li>
                 </ol>
                 <h1>Categories</h1>
-                <a className="btn btn-primary disabled" style={styleAddCat} href="#" data-toggle="modal" data-target="#createCat">
+                <a className="btn btn-primary" style={styleAddCat} href="#" data-toggle="modal" data-target="#createCat">
                     <i className={"fa fa-fw fa-plus"}>  </i>
-                    add Categorie
+                    Ajouter une categorie
                 </a>
 
 
@@ -118,6 +130,21 @@ export class Categories extends React.Component {
                 >
                     {contentSousCat}
                 </Modal>
+                
+                <Modal id={"createCat"}
+                       title={"Ajouter une catégorie"}
+                       titleButton={"Create"}
+                       onClick={this.modalPutCat.bind(this)}
+                >
+                    <form role="form">
+                        <InputForm type="text"
+                                   htmlFor="labelCateg"
+                                   label="Label"
+                                   id="labelCateg"
+                                   placeholder="Label"
+                        />
+                    </form>
+                </Modal>
             </Main>
         );
     }
@@ -129,8 +156,7 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // putUser: (userEmail, password) => dispatch(putUser(userEmail, password)),
-        // deleteUser: (id) => dispatch(deleteUser(id)),
+        putCategories: (label) => dispatch(putCategories(label)),
         getCategories: () => dispatch(getCategories()),
         getSousCategories: (id) => dispatch(getSousCategories(id))
     }
