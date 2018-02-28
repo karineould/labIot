@@ -5,6 +5,8 @@ import Login from './login/Login';
 import User from './contents/Users';
 import Accueil from './contents/Accueil';
 import Materiels from "./contents/Materiels";
+import Empreints from "./contents/Empreints";
+import Categories from "./contents/Categories";
 
 export class App extends React.Component {
 
@@ -28,6 +30,8 @@ export class App extends React.Component {
                     <Route exact path='/' component={Accueil}/>
                     <Route path='/materiels' component={Materiels}/>
                     <Route path='/users' component={User}/>
+                    <Route path='/empreints' component={Empreints}/>
+                    <Route path='/categories' component={Categories}/>
                     <Redirect from="/login" to="/"/>
                 </Switch>
             </Router>

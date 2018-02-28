@@ -7,6 +7,7 @@ export default class Modal extends React.Component {
     }
 
     render() {
+
         return (
             <div className="modal fade" id={this.props.id} tabIndex="-1" role="dialog" aria-hidden="true">
                 <div className="modal-dialog" role="document">

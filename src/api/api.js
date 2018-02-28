@@ -17,7 +17,7 @@ const request = (endPoint, method, params) => {
     let url = API_URL + endPoint;
 
     const token = store.getState().auth.token;
-    console.log(token);
+    // console.log(token);
 
     if (token) {
         config.headers = {

@@ -18,6 +18,8 @@ export default class NavBar extends React.Component {
                         <ItemSideBar title="Accueil" link="/" icon="fa fa-fw fa-dashboard" />
                         <ItemSideBar title="Utilisateurs" link="/users" icon="fa fa-fw fa-table" />
                         <ItemSideBar title="Materiels" link="/materiels" icon="fa fa-fw fa-wrench" />
+                        <ItemSideBar title="Empreints" link="/empreints" icon="fa fa-fw fa-cart-arrow-down" />
+                        <ItemSideBar title="Categories" link="/categories" icon="fa fa-fw fa-sitemap" />
                     </ul>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">

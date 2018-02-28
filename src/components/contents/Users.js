@@ -5,6 +5,7 @@ import {InputForm} from "../Form/InputForm";
 import {connect} from "react-redux";
 import {Table} from "../Table/Table";
 import {putUser} from "../../redux/user/actions";
+import {deleteUser} from "../../redux/user/actions";
 import {getUsers} from "../../redux/users/actions";
 
 export class Users extends React.Component {
@@ -23,18 +24,58 @@ export class Users extends React.Component {
                 error: false,
                 message: ""
             },
+            delete: {
+                userId: false,
+                userName: ""
+            },
+            update: {
+                userId: false,
+                userName: ""
+            }
 
         };
+
+        this.modalDelete = this.modalDelete.bind(this);
+        this.modalUpdate = this.modalUpdate.bind(this);
     }
 
     componentDidUpdate(){
-        this.props.getUsers();
+        this.props.getUsers()
     }
 
-    handleClick(e) {
+    modalDelete(e) {
+        e.preventDefault();
+
+        this.setState({
+            delete: {
+                userId: e.target.parentElement.dataset["id"],
+                userName: e.target.parentElement.dataset["name"]
+            }
+        });
+    }
+
+    modalUpdate(e) {
+        e.preventDefault();
+
+        this.setState({
+            update: {
+                userId: e.target.parentElement.dataset["id"],
+                userName: e.target.parentElement.dataset["name"]
+            }
+        });
+    }
+
+    saveUser(e) {
         e.preventDefault();
         this.props.putUser(this.state.userEmail.value, this.state.password.value);
         console.log('save user');
+    }
+
+    deleteUser(e) {
+        e.preventDefault();
+        this.props.deleteUser(this.state.delete.userId);
+        console.log('delete user');
+        // console.log(e.target);
     }
 
     change(e) {
@@ -95,15 +136,19 @@ export class Users extends React.Component {
             </a>
         ) : '';
 
-        const updateField = this.props.state.auth.isAdmin ? (
-            <td><i className={"fa fa-fw fa-edit"}> </i> </td>
+        // const updateField = (id, name) => this.props.state.auth.isAdmin ? (
+        //     <td><i className={"fa fa-fw fa-edit"}> </i> </td>
+        // ) : '';
+
+        const deleteField = (id, name) => this.props.state.auth.isAdmin ? (
+            <td>
+                <a href="#" data-toggle="modal" onClick={this.modalDelete} data-name={name} data-id={id} data-target="#deleteUser">
+                    <i className={"fa fa-fw fa-trash"}> </i>
+                </a>
+            </td>
         ) : '';
 
-        const deleteField = this.props.state.auth.isAdmin ? (
-            <td><i className={"fa fa-fw fa-trash"}> </i> </td>
-        ) : '';
-
-        const headerTable =  this.props.state.auth.isAdmin ? ["User name", "Admin", "Update", "Delete"] : ["User name", "Admin"]
+        const headerTable =  this.props.state.auth.isAdmin ? ["User name", "Admin", /*"Update",*/ "Delete"] : ["User name", "Admin"]
 
         return (
             <Main>
@@ -127,8 +172,8 @@ export class Users extends React.Component {
                                             <i className={"fa fa-fw fa-check-circle"}> </i>
                                             : <i className={"fa fa-fw fa-times"}> </i>}
                                             </td>
-                                        {updateField}
-                                        {deleteField}
+                                        {/*{updateField}*/}
+                                        {deleteField(u._id, u.email)}
                                     </tr>
                                 )}
                         </Table>
@@ -139,7 +184,7 @@ export class Users extends React.Component {
                 <Modal id={"createUser"}
                        title={"Create User"}
                        titleButton={"Create"}
-                       onClick={this.handleClick.bind(this)}
+                       onClick={this.saveUser.bind(this)}
                 >
                     <form role="form">
                         <InputForm type="email"
@@ -162,6 +207,15 @@ export class Users extends React.Component {
                         />
                     </form>
                 </Modal>
+
+                <Modal id={"deleteUser"}
+                       title={"Delete User"}
+                       titleButton={"Delete"}
+                       data={this.state.delete.userId}
+                       onClick={this.deleteUser.bind(this)}
+                >
+                    Etes vous sur de vouloir supprimer {this.state.delete.userName}
+                </Modal>
             </Main>
         );
     }
@@ -174,6 +228,7 @@ const mapStateToProps = function(state) {
 const mapDispatchToProps = (dispatch) => {
     return {
         putUser: (userEmail, password) => dispatch(putUser(userEmail, password)),
+        deleteUser: (id) => dispatch(deleteUser(id)),
         getUsers: () => dispatch(getUsers())
     }
 };
