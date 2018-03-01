@@ -7,6 +7,7 @@ import {SelectForm} from "../Form/SelectForm";
 import {Table} from "../Table/Table";
 import {getItems} from "../../redux/items/actions";
 import {getCategories} from "../../redux/categories/actions";
+let QRCode = require('qrcode-react');
 
 export class Materiels extends React.Component {
 
@@ -52,7 +53,7 @@ export class Materiels extends React.Component {
             top: '140px'
         };
 
-        const headerTable =  ["Name", "Categorie", "Sous-categorie", "Quantité", "Update", "Delete"];
+        const headerTable =  ["Name", "Categorie", "Sous-categorie", "Quantité", "QRcode", "Update", "Delete"];
 
         const getCat = (categorie) => (
             <td>{categorie ? categorie.nom : ''}</td>
@@ -85,6 +86,7 @@ export class Materiels extends React.Component {
                                     {getCat(u.categorie)}
                                     {getCat(u.sousCategorie)}
                                     <td>{u.quantite}</td>
+                                    <td><QRCode value={u._id} /></td>
                                     <td>
                                         <i className={"fa fa-fw fa-edit"}> </i>
                                         {/*<a href="#" data-toggle="modal" data-name={u.name} data-id={u._id} data-target="#deleteCategorie">*/}
