@@ -1,9 +1,14 @@
 import React from 'react';
 import Main from "../Main";
+import {getEmprunts} from "../../redux/emprunts/actions";
+import {connect} from "react-redux";
+import {Table} from "../Table/Table";
 
-export default class Emprunts extends React.Component {
+export class Emprunts extends React.Component {
 
     render() {
+        const headerTable =  ["User email", "Item", "Quantite", "Etat", "Date d'empreint"];
+
         return (
             <Main>
                 <ol className="breadcrumb">
@@ -13,8 +18,38 @@ export default class Emprunts extends React.Component {
                     <li className="breadcrumb-item active">Emprunts</li>
                 </ol>
                 <h1>Emprunts</h1>
+
+                <hr />
+
+                <div className="card mb-3">
+                    <div className="card-body">
+                        <Table header={headerTable}>
+                            {this.props.state.emprunts.map((u, i) =>
+                                <tr key={u._id}>
+                                    <td>{u.user_mail}</td>
+                                    <td>{u.item}</td>
+                                    <td>{u.quantite}</td>
+                                    <td>{u.etat}</td>
+                                    <td>{u.dateStart}</td>
+                                </tr>
+                            )}
+                        </Table>
+                    </div>
+
+                </div>
             </Main>
         );
     }
 }
 
+const mapStateToProps = function(state) {
+    return {state};
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getEmprunts: () => dispatch(getEmprunts())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Emprunts)

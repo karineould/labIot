@@ -5,6 +5,7 @@ import {getUsers} from "../../redux/users/actions";
 import {Link} from 'react-router-dom';
 import {getCategories} from "../../redux/categories/actions";
 import {getItems} from "../../redux/items/actions";
+import {getEmprunts} from "../../redux/emprunts/actions";
 
 export class Accueil extends React.Component {
 
@@ -16,6 +17,7 @@ export class Accueil extends React.Component {
         this.props.getUsers();
         this.props.getCategories();
         this.props.getItems();
+        this.props.getEmprunts();
     }
 
     render() {
@@ -73,9 +75,9 @@ export class Accueil extends React.Component {
                                 <div className="card-body-icon">
                                     <i className="fa fa-fw fa-cart-arrow-down"></i>
                                 </div>
-                                <div className="mr-5">0 Empreints!</div>
+                                <div className="mr-5">{this.props.state.emprunts.length} Emprunts!</div>
                             </div>
-                            <Link to="/materiels">
+                            <Link to="/emprunts">
                                 <div className="card-footer text-white clearfix small z-1">
                                     <span className="float-left">View Details</span>
                                     <span className="float-right">
@@ -118,7 +120,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getUsers: () => dispatch(getUsers()),
         getCategories: () => dispatch(getCategories()),
-        getItems: () => dispatch(getItems())
+        getItems: () => dispatch(getItems()),
+        getEmprunts: () => dispatch(getEmprunts())
     }
 };
 
