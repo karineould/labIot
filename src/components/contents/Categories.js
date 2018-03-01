@@ -5,7 +5,7 @@ import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
 import {Table} from "../Table/Table";
 import {getCategories,putCategories,postCategories,deleteCategories} from "../../redux/categories/actions";
-import {getSousCategories} from "../../redux/sousCategories/actions";
+import {getSousCategories, resetSousCategories} from "../../redux/sousCategories/actions";
 export class Categories extends React.Component {
 
     constructor(props) {
@@ -28,6 +28,7 @@ export class Categories extends React.Component {
 
     modalfetchSousCat(e) {
         e.preventDefault();
+        this.props.resetSousCategories();
 
         this.setState({
             categorieId: e.target.parentElement.dataset["id"],
@@ -259,7 +260,8 @@ const mapDispatchToProps = (dispatch) => {
         deleteCategories: (id) => dispatch(deleteCategories(id)),
         postCategories: (id, label) => dispatch(postCategories(id, label)),
         getCategories: () => dispatch(getCategories()),
-        getSousCategories: (id) => dispatch(getSousCategories(id))
+        getSousCategories: (id) => dispatch(getSousCategories(id)),
+        resetSousCategories: () => dispatch(resetSousCategories())
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

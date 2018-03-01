@@ -71,7 +71,6 @@ export class Login extends React.Component {
 
                         <div className="text-center">
                             <a className="d-block small mt-3" href="">Register an Account</a>
-                            <a className="d-block small" href="">Forgot Password?</a>
                         </div>
                     </div>
                 </div>

@@ -17,3 +17,8 @@ export function getSousCategories(id) {
         })
 
 }
+
+export function resetSousCategories() {
+    return dispatch => dispatch(setSousCategories([]))
+}
+

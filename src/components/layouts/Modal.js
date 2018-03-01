@@ -11,7 +11,7 @@ export default class Modal extends React.Component {
         const buttonValidate = this.props.onClick ? (
             <button className={"btn btn-primary " + (this.props.error ? "disabled": "")} onClick={this.props.onClick} type="button" data-dismiss="modal">{this.props.titleButton}</button>
         ) : (
-            <button className="btn btn-primary" type="button" data-dismiss="modal">{this.props.titleButton}</button>
+            <button className={"btn btn-primary " + (this.props.error ? "disabled": "")} type="button" data-dismiss="modal">{this.props.titleButton}</button>
         );
 
         return (
