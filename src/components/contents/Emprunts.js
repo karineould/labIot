@@ -9,6 +9,10 @@ export class Emprunts extends React.Component {
     render() {
         const headerTable =  ["User email", "Item", "Quantite", "Etat", "Date d'empreint"];
 
+        const getItem = (item) => (
+            <td>{item ? item.nom : ''}</td>
+
+        );
         return (
             <Main>
                 <ol className="breadcrumb">
@@ -27,7 +31,7 @@ export class Emprunts extends React.Component {
                             {this.props.state.emprunts.map((u, i) =>
                                 <tr key={u._id}>
                                     <td>{u.user_mail}</td>
-                                    <td>{u.item}</td>
+                                    {getItem(u.item)}
                                     <td>{u.quantite}</td>
                                     <td>{u.etat}</td>
                                     <td>{u.dateStart}</td>
