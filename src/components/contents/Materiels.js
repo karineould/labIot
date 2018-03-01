@@ -299,7 +299,7 @@ export class Materiels extends React.Component {
                         <SelectForm id={"itemSousCat"}
                                     for={"itemSousCat"}
                                     label="Sous categorie de l'item"
-                                    value={this.props.state.sousCategories}
+                                    value={this.props.state.sousCategories.sousCategories}
                                     onChange={this.changeSousCat.bind(this)}
                                     error={false}
                                     errorMessage={false}

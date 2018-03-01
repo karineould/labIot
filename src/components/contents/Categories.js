@@ -3,9 +3,10 @@ import Main from "../Main";
 import {connect} from "react-redux";
 import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
+import {SelectForm} from "../Form/SelectForm";
 import {Table} from "../Table/Table";
 import {getCategories,putCategories,postCategories,deleteCategories} from "../../redux/categories/actions";
-import {getSousCategories, resetSousCategories} from "../../redux/sousCategories/actions";
+import {getSousCategories,postSousCategories,putSousCategories,resetSousCategories,deleteSousCategories} from "../../redux/sousCategories/actions";
 export class Categories extends React.Component {
 
     constructor(props) {
@@ -24,6 +25,22 @@ export class Categories extends React.Component {
 
         this.modalfetchSousCat = this.modalfetchSousCat.bind(this);
         this.beforeModalSetId = this.beforeModalSetId.bind(this);
+        this.addSubCat = this.addSubCat.bind(this);
+        this.deleteSubCat = this.deleteSubCat.bind(this);
+    }
+
+    addSubCat(e){
+      e.preventDefault();
+      var id = this.state.categorieId;
+      var nom = $('#addSubCatInput').val();
+      this.props.putSousCategories(id,nom);
+      $('#addSubCatInput').val("");
+    }
+
+    deleteSubCat(e){
+      e.preventDefault();
+      var subId = e.target.parentElement.dataset["id"];
+      this.props.deleteSousCategories(subId,this.state.categorieId);
     }
 
     modalfetchSousCat(e) {
@@ -36,6 +53,8 @@ export class Categories extends React.Component {
         });
 
         this.props.getSousCategories(e.target.parentElement.dataset["id"]);
+        var refreshValue = () => {$('input[data-value!=0]').each(function( index, element ) {$(this).val($(this).data('value'))})};
+        setTimeout(refreshValue,500);
     }
 
     modalPutCat(e) {
@@ -48,9 +67,7 @@ export class Categories extends React.Component {
 
     modalDeleteCat(e) {
         e.preventDefault();
-
         this.props.deleteCategories(this.state.categorieId);
-        console.log("delete modal reaction");
     }
 
     modalPostCat(e) {
@@ -71,18 +88,13 @@ export class Categories extends React.Component {
         }
 
         $('#editLabelCateg').val('');
-        console.log("post modal reaction");
     }
 
 
     beforeModalSetId(e) {
         e.preventDefault();
-
-        console.log('before' + e.target.parentElement.dataset["name"]);
-
         $('#labelCateg').val('');
         $('#editLabelCateg').val('');
-
         this.setState({
             categorieId: e.target.parentElement.dataset["id"],
             categorieName: e.target.parentElement.dataset["name"],
@@ -122,22 +134,65 @@ export class Categories extends React.Component {
 
         const headerTableCat = ["Categorie name", "Actions", "Sous-Categorie"];
         const headerTableSousCat = ["Name", "Delete"];
-
-        const contentSousCat = this.props.state.sousCategories.length > 0 ? (
+        const contentSousCat = this.props.state.sousCategories.sousCategories.length > 0 ? (
             <Table header={headerTableSousCat}>
-                {this.props.state.sousCategories.map((u, i) =>
+                {this.props.state.sousCategories.sousCategories.sort(function(a,b){
+                  var nameA=a.nom.toLowerCase(), nameB=b.nom.toLowerCase();
+                  if (nameA < nameB)
+                   return -1;
+                  if (nameA > nameB)
+                   return 1;
+                  return 0;
+                }).map((u, i) =>
                     <tr key={u._id}>
                         <td>{u.nom}</td>
                         <td>
+                          <a href='#' data-id={u._id} onClick={this.deleteSubCat} >
                             <i className={"fa fa-fw fa-trash"}> </i>
+                          </a>
                         </td>
                     </tr>
                 )}
-            </Table>
+
+                <tr>
+                  <td colspan="2">
+                    <form class="form form-inline">
+                      <div class="form-group">
+                          <InputForm type="text"
+                            id="addSubCatInput"
+                            placeholder="Nouveau"
+                          />
+                          <InputForm type="button"
+                            id="submitAddSousCat"
+                            onClick={this.addSubCat}
+                            value="+"
+                            addClass="btn btn-success btn-number"
+                          />
+                      </div>
+                    </form>
+                  </td>
+                </tr>
+              </Table>
         ) : (
-            <div>
-                Aucune sous-categorie !
+          <div>
+            <div className="row">
+              Aucune sous-categorie !
             </div>
+            <form class="form form-inline">
+              <div class="form-group">
+                  <InputForm type="text"
+                    id="addSubCatInput"
+                    placeholder="Nouveau"
+                  />
+                  <InputForm type="button"
+                    id="submitAddSousCat"
+                    onClick={this.addSubCat}
+                    value="+"
+                    addClass="btn btn-success btn-number"
+                  />
+              </div>
+          </form>
+        </div>
         );
 
         return (
@@ -186,7 +241,7 @@ export class Categories extends React.Component {
 
                 <Modal id={"showSousCategorie"}
                        title={"Sous Categorie de " + this.state.categorieName}
-                       titleButton={"OK"}
+                       titleButtonCancel={"OK"}
                        error={false}
                 >
                     {contentSousCat}
@@ -214,6 +269,7 @@ export class Categories extends React.Component {
                        titleButton={"Update"}
                        onClick={this.modalPostCat.bind(this)}
                        error={this.state.update.error}
+                       data-id={this.state.categorieId}
                 >
                     <form role="form">
                         <InputForm type="text"
@@ -224,6 +280,7 @@ export class Categories extends React.Component {
                                    placeholder={this.state.categorieName}
                                    error={this.state.update.error}
                                    errorMessage={this.state.update.message}
+                                   value={this.state.categorieName}
                         />
                     </form>
                 </Modal>
@@ -255,14 +312,16 @@ const mapStateToProps = function(state) {
     return {state};
 };
 const mapDispatchToProps = (dispatch) => {
-    return {
-        putCategories: (label) => dispatch(putCategories(label)),
-        deleteCategories: (id) => dispatch(deleteCategories(id)),
-        postCategories: (id, label) => dispatch(postCategories(id, label)),
-        getCategories: () => dispatch(getCategories()),
-        getSousCategories: (id) => dispatch(getSousCategories(id)),
-        resetSousCategories: () => dispatch(resetSousCategories())
-    }
+  return {
+    putCategories: (label) => dispatch(putCategories(label)),
+    deleteCategories: (id) => dispatch(deleteCategories(id)),
+    postCategories: (id, label) => dispatch(postCategories(id, label)),
+    getCategories: () => dispatch(getCategories()),
+    getSousCategories: (id) => dispatch(getSousCategories(id)),
+    postSousCategories: (id,idCateg) => dispatch(postSousCategories(id,idCateg)),
+    putSousCategories: (id,nom) => dispatch(putSousCategories(id,nom)),
+    resetSousCategories: () => dispatch(resetSousCategories()),
+    deleteSousCategories: (id,categId) => dispatch(deleteSousCategories(id,categId))
+  }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)
-

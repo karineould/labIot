@@ -18,12 +18,14 @@ export class InputForm extends React.Component {
              return (
                  <div className="form-group">
                      <label className="text-danger" htmlFor={this.props.htmlFor}>{this.props.label}</label>
-                     <input className="form-control is-invalid"
+                     <input className={"form-control is-invalid "+ this.props.addClass}
                             id={this.props.id}
                             onChange={this.props.onChange}
                             type={this.props.type}
                             placeholder={this.props.placeholder}
                             onFocus={this.props.onChange}
+                            onClick={this.props.onClick}
+                            data-value = {this.props.value}
                      />
                      {errorMessage}
                  </div>
@@ -33,12 +35,14 @@ export class InputForm extends React.Component {
         return (
             <div className="form-group">
                 <label htmlFor={this.props.htmlFor}>{this.props.label}</label>
-                <input className="form-control"
+                <input className={"form-control "+this.props.addClass}
                        id={this.props.id}
                        onChange={this.props.onChange}
                        type={this.props.type}
                        placeholder={this.props.placeholder}
                        onFocus={this.props.onChange}
+                       onClick={this.props.onClick}
+                       data-value = {this.props.value}
                 />
             </div>
         )
