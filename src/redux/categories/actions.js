@@ -21,7 +21,7 @@ export function putCategories(label) {
     let payload = JSON.stringify({
         nom: label
     });
-    return dispatch => PUT('/categories/create',payload)
+    return dispatch => PUT('/categories/create', payload)
         .then(() => {
             return dispatch(getCategories())
         }).catch((err) => {
@@ -34,7 +34,7 @@ export function postCategories(id, label) {
     let payload = JSON.stringify({
         nom: label
     });
-    return dispatch => POST('/categories/'+id,payload)
+    return dispatch => POST('/categories/'+id, payload)
         .then(() => {
             return dispatch(getCategories())
         }).catch((err) => {
@@ -44,7 +44,7 @@ export function postCategories(id, label) {
 
 
 export function deleteCategories(id) {
-    return dispatch => DELETE('/categories/'+id)
+    return dispatch => DELETE('/categories/'+ id)
         .then(() => {
             return dispatch(getCategories())
         }).catch((err) => {

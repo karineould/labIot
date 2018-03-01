@@ -4,35 +4,26 @@ export class InputForm extends React.Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            error: this.props.error || false,
-            errorMessage: this.props.errorMessage || false,
-            htmlFor: this.props.htmlFor || '',
-            label: this.props.label || '',
-            id: this.props.id || '',
-            type: this.props.type || '',
-            placeholder: this.props.placeholder || ''
-        }
     }
 
     render() {
 
-        const errorMessage = this.state.errorMessage ? (
+        const errorMessage = this.props.errorMessage ? (
             <small className="text-danger">
-                {this.state.errorMessage}
+                {this.props.errorMessage}
             </small>
         ) : '';
 
-        if (this.state.error) {
+        if (this.props.error) {
              return (
                  <div className="form-group">
-                     <label className="text-danger" htmlFor={this.state.htmlFor}>{this.state.label}</label>
+                     <label className="text-danger" htmlFor={this.props.htmlFor}>{this.props.label}</label>
                      <input className="form-control is-invalid"
-                            id={this.state.id}
+                            id={this.props.id}
                             onChange={this.props.onChange}
-                            type={this.state.type}
-                            placeholder={this.state.placeholder}
+                            type={this.props.type}
+                            placeholder={this.props.placeholder}
+                            onFocus={this.props.onChange}
                      />
                      {errorMessage}
                  </div>
@@ -41,12 +32,13 @@ export class InputForm extends React.Component {
 
         return (
             <div className="form-group">
-                <label htmlFor={this.state.htmlFor}>{this.state.label}</label>
+                <label htmlFor={this.props.htmlFor}>{this.props.label}</label>
                 <input className="form-control"
-                       id={this.state.id}
+                       id={this.props.id}
                        onChange={this.props.onChange}
-                       type={this.state.type}
-                       placeholder={this.state.placeholder}
+                       type={this.props.type}
+                       placeholder={this.props.placeholder}
+                       onFocus={this.props.onChange}
                 />
             </div>
         )

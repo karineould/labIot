@@ -11,12 +11,8 @@ export class Categories extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            categorie: {
-                catId: false,
-                catName: "",
-                error: false,
-                message: ""
-            },
+            categorieId: false,
+            categorieName: '',
             update: {
                 catId: false,
                 catName: "",
@@ -25,6 +21,7 @@ export class Categories extends React.Component {
 
             }
         };
+
         this.modalfetchSousCat = this.modalfetchSousCat.bind(this);
         this.beforeModalSetId = this.beforeModalSetId.bind(this);
     }
@@ -33,13 +30,10 @@ export class Categories extends React.Component {
         e.preventDefault();
 
         this.setState({
-            categorie: {
-                catId: e.target.parentElement.dataset["id"],
-                catName: e.target.parentElement.dataset["name"],
-                error: false,
-                message: ""
-            }
+            categorieId: e.target.parentElement.dataset["id"],
+            categorieName: e.target.parentElement.dataset["name"]
         });
+
         this.props.getSousCategories(e.target.parentElement.dataset["id"]);
     }
 
@@ -54,15 +48,28 @@ export class Categories extends React.Component {
     modalDeleteCat(e) {
         e.preventDefault();
 
-        this.props.deleteCategories(this.state.categorie.catId);
+        this.props.deleteCategories(this.state.categorieId);
         console.log("delete modal reaction");
     }
 
     modalPostCat(e) {
         e.preventDefault();
 
-        this.props.postCategories(this.state.update
-            .catId, this.state.update.catName);
+        if (this.state.update.catName !== '') {
+            this.props.postCategories(this.state.update.catId, this.state.update.catName);
+        } else {
+            let idCat = this.state.update.catId;
+            this.setState({
+                update: {
+                    catId: idCat,
+                    catName: '',
+                    error: true,
+                    message: "This fields may not be empty"
+                }
+            });
+        }
+
+        $('#editLabelCateg').val('');
         console.log("post modal reaction");
     }
 
@@ -70,27 +77,38 @@ export class Categories extends React.Component {
     beforeModalSetId(e) {
         e.preventDefault();
 
+        console.log('before' + e.target.parentElement.dataset["name"]);
+
+        $('#labelCateg').val('');
+        $('#editLabelCateg').val('');
+
         this.setState({
-            categorie: {
-                catId: e.target.parentElement.dataset["id"],
-                catName: e.target.parentElement.dataset["name"],
-                error: false,
-                message: ""
-            }
+            categorieId: e.target.parentElement.dataset["id"],
+            categorieName: e.target.parentElement.dataset["name"],
         });
     }
 
     change(e) {
-        let idCat = this.state.categorie.catId;
-
-        this.setState({
-            update: {
-                catId: idCat,
-                catName: e.target.value,
-                error: false,
-                message: ""
-            }
-        });
+        let idCat = this.state.categorieId;
+        if ((e.target.value).length > 0){
+            this.setState({
+                update: {
+                    catId: idCat,
+                    catName: e.target.value,
+                    error: false,
+                    message: ""
+                }
+            });
+        } else {
+            this.setState({
+                update: {
+                    catId: idCat,
+                    catName: '',
+                    error: true,
+                    message: "This fields may not be empty"
+                }
+            });
+        }
     }
 
     render() {
@@ -111,9 +129,6 @@ export class Categories extends React.Component {
                         <td>{u.nom}</td>
                         <td>
                             <i className={"fa fa-fw fa-trash"}> </i>
-                            {/*<a href="#" data-toggle="modal" data-name={u.name} data-id={u._id} data-target="#deleteCategorie">*/}
-                            {/*<i className={"fa fa-fw fa-trash"}> </i>*/}
-                            {/*</a>*/}
                         </td>
                     </tr>
                 )}
@@ -169,8 +184,9 @@ export class Categories extends React.Component {
                 </div>
 
                 <Modal id={"showSousCategorie"}
-                       title={"Sous Categorie de " + this.state.categorie.catName}
+                       title={"Sous Categorie de " + this.state.categorieName}
                        titleButton={"OK"}
+                       error={false}
                 >
                     {contentSousCat}
                 </Modal>
@@ -179,6 +195,7 @@ export class Categories extends React.Component {
                        title={"Ajouter une catégorie"}
                        titleButton={"Create"}
                        onClick={this.modalPutCat.bind(this)}
+                       error={this.state.update.error}
                 >
                     <form role="form">
                         <InputForm type="text"
@@ -192,9 +209,10 @@ export class Categories extends React.Component {
                 </Modal>
 
                 <Modal id={"editCategorie"}
-                       title={"Modifier la catégorie "+ this.state.categorie.catName}
+                       title={"Modifier la catégorie "+ this.state.categorieName}
                        titleButton={"Update"}
                        onClick={this.modalPostCat.bind(this)}
+                       error={this.state.update.error}
                 >
                     <form role="form">
                         <InputForm type="text"
@@ -202,23 +220,27 @@ export class Categories extends React.Component {
                                    label="Category Name"
                                    id="editLabelCateg"
                                    onChange={this.change.bind(this)}
-                                   placeholder={this.state.categorie.catName}
+                                   placeholder={this.state.categorieName}
+                                   error={this.state.update.error}
+                                   errorMessage={this.state.update.message}
                         />
                     </form>
                 </Modal>
 
                 <Modal id={"deleteCategorie"}
-                       title={"Supprimer la catégorie "+ this.state.categorie.catName}
+                       title={"Supprimer la catégorie "+ this.state.categorieName}
                        titleButton={"Supprimer"}
                        onClick={this.modalDeleteCat.bind(this)}
+                       error={false}
                 >
                     <b>Etes vous sûr de vouloir supprimer la catégorie, ainsi que toutes les sous-categories et items liés ?</b>
                 </Modal>
 
 
                 <Modal id={"showSousCategorie"}
-                       title={"Sous Categorie de " + this.state.categorie.catName}
+                       title={"Sous Categorie de " + this.state.categorieName}
                        titleButton={"OK"}
+                       error={false}
                 >
                     {contentSousCat}
                 </Modal>

@@ -181,6 +181,7 @@ export class Users extends React.Component {
                        title={"Create User"}
                        titleButton={"Create"}
                        onClick={this.saveUser.bind(this)}
+                       error={(this.state.userEmail.error || this.state.password.error)}
                 >
                     <form role="form">
                         <InputForm type="email"
@@ -209,6 +210,7 @@ export class Users extends React.Component {
                        titleButton={"Delete"}
                        data={this.state.delete.userId}
                        onClick={this.deleteUser.bind(this)}
+                       error={false}
                 >
                     Etes vous sur de vouloir supprimer {this.state.delete.userName}
                 </Modal>
