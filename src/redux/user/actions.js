@@ -9,34 +9,6 @@ export const setUser = (user) => ({
 });
 
 
-export function putUser(userEmail, password) {
-    let payload = JSON.stringify({
-        email: userEmail,
-        password: password
-    });
-
-    return dispatch => PUT('/users/create', payload)
-        .then((response) => {
-            return dispatch(setUser(response.user))
-        }).catch((err) => {
-            console.log(err);
-        })
-
-}
-
-export function deleteUser(id) {
-    return dispatch => DELETE('/users/'+ id)
-        .then((user) => {
-            return user;
-        }).catch((err) => {
-            console.log(err);
-        })
-
-}
-
-
-
-
 export function getUser(id) {
     return dispatch => GET('/users/'+id)
         .then((user) => {

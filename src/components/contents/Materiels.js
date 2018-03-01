@@ -106,6 +106,7 @@ export class Materiels extends React.Component {
                 <Modal id={"createItem"}
                        title={"Create Item"}
                        titleButton={"Create"}
+                       error={this.state.item.catName.error}
                        // onClick={this.saveItem.bind(this)}
                 >
                     <form role="form">

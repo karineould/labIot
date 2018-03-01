@@ -23,6 +23,7 @@ export class InputForm extends React.Component {
                             onChange={this.props.onChange}
                             type={this.props.type}
                             placeholder={this.props.placeholder}
+                            onFocus={this.props.onChange}
                      />
                      {errorMessage}
                  </div>
@@ -37,6 +38,7 @@ export class InputForm extends React.Component {
                        onChange={this.props.onChange}
                        type={this.props.type}
                        placeholder={this.props.placeholder}
+                       onFocus={this.props.onChange}
                 />
             </div>
         )
