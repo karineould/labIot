@@ -5,10 +5,11 @@ import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
 import {SelectForm} from "../Form/SelectForm";
 import {Table} from "../Table/Table";
-import {getItems, putItem} from "../../redux/items/actions";
+import {getItems, putItem, deleteItem} from "../../redux/items/actions";
 import {getCategories} from "../../redux/categories/actions";
 import {resetSousCategories} from "../../redux/sousCategories/actions";
 import {getSousCategories} from '../../redux/sousCategories/actions';
+
 
 let QRCode = require('qrcode-react');
 
@@ -18,6 +19,7 @@ export class Materiels extends React.Component {
         super(props);
 
         this.state = {
+            itemId: false,
             catName: {
                 value:"",
                 error: false,
@@ -41,6 +43,29 @@ export class Materiels extends React.Component {
         };
 
         this.beforeModal = this.beforeModal.bind(this);
+        this.modalDelete = this.modalDelete.bind(this);
+    }
+
+    modalDelete(e) {
+        e.preventDefault();
+
+        this.setState({
+            itemId: e.target.parentElement.dataset["id"],
+        });
+
+        this.setState({
+            name: {
+                value: e.target.parentElement.dataset["name"],
+                error: false,
+                message: ""
+            }
+        });
+    }
+
+    deleteItem(e) {
+        e.preventDefault();
+        this.props.deleteItem(this.state.itemId);
+        console.log('delete item');
     }
 
     beforeModal() {
@@ -193,12 +218,22 @@ export class Materiels extends React.Component {
             top: '140px'
         };
 
-        const headerTable =  ["Name", "Categorie", "Sous-categorie", "Quantité", "QRcode", "Actions"];
+        const headerTable = this.props.state.auth.isAdmin ?
+            ["Name", "Categorie", "Sous-categorie", "Quantité", "QRcode", "Deleted"] :
+            ["Name", "Categorie", "Sous-categorie", "Quantité", "QRcode"];
 
         const getCat = (categorie) => (
             <td>{categorie ? categorie.nom : ''}</td>
 
         );
+
+        const deleteField = (id, name) => this.props.state.auth.isAdmin ? (
+            <td>
+                <a href="#" data-toggle="modal" onClick={this.modalDelete} data-name={name} data-id={id} data-target="#deleteItem">
+                    <i className={"fa fa-fw fa-trash"}> </i>
+                </a>
+            </td>
+        ) : '';
 
         return (
             <Main>
@@ -227,12 +262,7 @@ export class Materiels extends React.Component {
                                     {getCat(u.sousCategorie)}
                                     <td>{u.quantite}</td>
                                     <td><QRCode value={u._id} /></td>
-                                    <td>
-                                        <i className={"fa fa-fw fa-edit"}> </i>
-                                        <a href="#" data-toggle="modal" data-name={u.nom} data-id={u._id} data-target="#deleteItem">
-                                            <i className={"fa fa-fw fa-trash"}> </i>
-                                        </a>
-                                    </td>
+                                    {deleteField(u._id, u.nom)}
                                 </tr>
                             )}
                         </Table>
@@ -286,6 +316,16 @@ export class Materiels extends React.Component {
                         />
                     </form>
                 </Modal>
+
+                <Modal id={"deleteItem"}
+                       title={"Delete Item"}
+                       titleButton={"Delete"}
+                       data={this.state.itemId}
+                       onClick={this.deleteItem.bind(this)}
+                       error={false}
+                >
+                    Etes vous sur de vouloir supprimer {this.state.name.value}
+                </Modal>
             </Main>
         );
     }
@@ -301,7 +341,8 @@ const mapDispatchToProps = (dispatch) => {
         getCategories: () => dispatch(getCategories()),
         resetSousCategories: () => dispatch(resetSousCategories()),
         getSousCategories: (id) => dispatch(getSousCategories(id)),
-        putItem: (nom, categorie, sousCategorie, quantite) => dispatch(putItem(nom, categorie, sousCategorie, quantite))
+        putItem: (nom, categorie, sousCategorie, quantite) => dispatch(putItem(nom, categorie, sousCategorie, quantite)),
+        deleteItem: (id) => dispatch(deleteItem(id)),
     }
 };
 

@@ -40,3 +40,13 @@ export function putItem(nom, categorie, sousCategorie, quantite) {
         })
 
 }
+
+export function deleteItem(id) {
+    return dispatch => DELETE('/items/'+ id)
+        .then((item) => {
+            return dispatch(getItems());
+        }).catch((err) => {
+            console.log(err);
+        })
+
+}
