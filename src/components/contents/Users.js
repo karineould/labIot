@@ -4,8 +4,8 @@ import Modal from "../layouts/Modal";
 import {InputForm} from "../Form/InputForm";
 import {connect} from "react-redux";
 import {Table} from "../Table/Table";
-import {putUser} from "../../redux/user/actions";
-import {deleteUser} from "../../redux/user/actions";
+import {putUser} from "../../redux/users/actions";
+import {deleteUser} from "../../redux/users/actions";
 import {getUsers} from "../../redux/users/actions";
 
 export class Users extends React.Component {
@@ -37,10 +37,6 @@ export class Users extends React.Component {
 
         this.modalDelete = this.modalDelete.bind(this);
         this.modalUpdate = this.modalUpdate.bind(this);
-    }
-
-    componentDidUpdate(){
-        this.props.getUsers()
     }
 
     modalDelete(e) {

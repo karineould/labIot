@@ -6,6 +6,7 @@ export const setCategories = (categories) => ({
     categories
 });
 
+
 export function getCategories() {
     return dispatch => GET('/categories')
         .then((categories) => {
@@ -28,22 +29,24 @@ export function putCategories(label) {
         });
 }
 
-export function postCategories(id,label) {
+
+export function postCategories(id, label) {
     let payload = JSON.stringify({
         nom: label
     });
     return dispatch => POST('/categories/'+id,payload)
         .then(() => {
-            return getCategories()
+            return dispatch(getCategories())
         }).catch((err) => {
             console.log(err);
         });
 }
 
+
 export function deleteCategories(id) {
     return dispatch => DELETE('/categories/'+id)
         .then(() => {
-            return getCategories()
+            return dispatch(getCategories())
         }).catch((err) => {
             console.log(err);
         });
